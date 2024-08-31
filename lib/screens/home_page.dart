@@ -4,6 +4,7 @@ import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
 import 'package:transaction_app/widgets/background_layout.dart';
 import 'package:transaction_app/widgets/box_container.dart';
+import 'package:transaction_app/widgets/buttons.dart';
 import 'package:transaction_app/widgets/general_textfield.dart';
 
 class HomePage extends StatelessWidget {
@@ -108,6 +109,25 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Buttons(
+              width: sizer(true, 317, context),
+              color: AppColors.lightGreenColor,
+              buttonText: 'Login',
+              buttonTextColor: AppColors.textWhite,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Buttons(
+              width: sizer(true, 317, context),
+              color: AppColors.primaryWhite,
+              hasButtonBorder: true,
+              buttonText: 'Login With Google',
+              buttonTextColor: AppColors.buttonGreenColor,
             ),
           ],
         ),
