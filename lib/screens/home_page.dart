@@ -4,12 +4,15 @@ import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
 import 'package:transaction_app/widgets/background_layout.dart';
 import 'package:transaction_app/widgets/box_container.dart';
+import 'package:transaction_app/widgets/general_textfield.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final emailTextEditingController = TextEditingController();
+    final passwordTextEditingController = TextEditingController();
     ScreenUtils.init(context);
     return BackgroundLayout(
       right: ScreenUtils.positionRight,
@@ -67,7 +70,10 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-             TextField(),
+            GeneralTextField(
+              textController: emailTextEditingController,
+              hintText: 'Enter your email',
+            ),
             const SizedBox(
               height: 30,
             ),
@@ -79,15 +85,30 @@ class HomePage extends StatelessWidget {
                 color: AppColors.textDark2,
               ),
             ),
-           
             const SizedBox(
               height: 20,
             ),
-            TextField(),
-            SizedBox(
+            GeneralTextField(
+              textController: passwordTextEditingController,
+              hintText: 'Enter your password',
+            ),
+            const SizedBox(
               height: 30,
             ),
-           
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () {},
+                child: Text(
+                  'Forgot Password',
+                  style: TextStyle(
+                    fontSize: sizer(true, 12, context),
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.deepGreenColor,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
