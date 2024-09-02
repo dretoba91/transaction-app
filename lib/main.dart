@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transaction_app/screens/home_page.dart';
+import 'package:transaction_app/screens/login_page.dart';
+import 'package:transaction_app/screens/signup_page.dart';
 
 void main() {
   runApp(const MyApp());

@@ -8,6 +8,8 @@ class Buttons extends StatelessWidget {
   final bool hasButtonBorder;
   final String? buttonText;
   final Color? buttonTextColor;
+  final double borderRadius;
+  final double height;
   const Buttons({
     super.key,
     this.width,
@@ -15,6 +17,8 @@ class Buttons extends StatelessWidget {
     this.hasButtonBorder = false,
     this.buttonText,
     this.buttonTextColor,
+    this.borderRadius = 8,
+    this.height = 51,
   });
 
   @override
@@ -24,11 +28,11 @@ class Buttons extends StatelessWidget {
       child: GestureDetector(
         onTap: () {},
         child: Container(
-          height: sizer(false, 51, context),
+          height: sizer(false, height, context),
           width: width,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(borderRadius),
             border: hasButtonBorder
                 ? Border.all(
                     color: AppColors.buttonRadiusGreenColor,

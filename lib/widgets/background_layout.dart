@@ -9,7 +9,17 @@ class BackgroundLayout extends StatelessWidget {
   final double? right;
   final double? top;
   final double? bottom;
-  const BackgroundLayout({super.key, this.containerChild, this.positionedChild, this.left, this.right, this.top, this.bottom});
+  final double height;
+  const BackgroundLayout({
+    super.key,
+    this.containerChild,
+    this.positionedChild,
+    this.left,
+    this.right,
+    this.top,
+    this.bottom,
+    this.height = 0.80,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +47,7 @@ class BackgroundLayout extends StatelessWidget {
               right: right,
               top: top,
               bottom: bottom,
-              height: ScreenUtils.screenHeight * 0.80,
+              height: ScreenUtils.screenHeight * height,
               child: positionedChild ?? const SizedBox(),
             ),
             // Align(
