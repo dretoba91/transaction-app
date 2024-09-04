@@ -51,7 +51,7 @@ class GeneralTextField extends StatelessWidget {
     return TextFormField(
       focusNode: focusNode,
       maxLength: maxLength,
-      autofocus: true,
+      autofocus: false,
       textCapitalization: textCapitalization ?? TextCapitalization.none,
       controller: textController ?? controller,
       onSaved: onSaved,
@@ -104,7 +104,7 @@ class GeneralTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(sizer(true, 12, context)),
           borderSide: const BorderSide(
             width: 1,
-            color: AppColors.lightGrey,
+            color: AppColors.lightGreenColor,
           ),
         ),
         errorStyle: TextStyle(

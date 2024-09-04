@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:transaction_app/screens/reset_password.dart';
-import 'package:transaction_app/screens/verify_page.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
@@ -9,23 +7,25 @@ import 'package:transaction_app/widgets/box_container.dart';
 import 'package:transaction_app/widgets/buttons.dart';
 import 'package:transaction_app/widgets/general_textfield.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class AddTransaction extends StatefulWidget {
+  const AddTransaction({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AddTransaction> createState() => _AddTransactionState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final emailTextEditingController = TextEditingController();
-  final passwordTextEditingController = TextEditingController();
+class _AddTransactionState extends State<AddTransaction> {
+  final typeTextEditingController = TextEditingController();
 
-  final focusNode = FocusNode();
+  final amountTextEditingController = TextEditingController();
+
+  final nameTextEditingController = TextEditingController();
 
   @override
   void dispose() {
-    emailTextEditingController.dispose();
-    passwordTextEditingController.dispose();
+    typeTextEditingController.dispose();
+    amountTextEditingController.dispose();
+    nameTextEditingController.dispose();
     super.dispose();
   }
 
@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 Text(
-                  'Login Here',
+                  'Register Here!',
                   style: TextStyle(
                     fontSize: sizer(true, 20, context),
                     fontWeight: FontWeight.w600,
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             Text(
-              'EMAIL',
+              'NAME',
               style: TextStyle(
                 fontSize: sizer(true, 12, context),
                 fontWeight: FontWeight.w500,
@@ -89,15 +89,14 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             GeneralTextField(
-              textController: emailTextEditingController,
-              hintText: 'Enter your email',
-              focusNode: focusNode,
+              textController: nameTextEditingController,
+              hintText: 'Name of Income/Expense',
             ),
             const SizedBox(
               height: 30,
             ),
             Text(
-              'PASSWORD',
+              'TYPE',
               style: TextStyle(
                 fontSize: sizer(true, 12, context),
                 fontWeight: FontWeight.w500,
@@ -108,30 +107,26 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             GeneralTextField(
-              textController: passwordTextEditingController,
-              hintText: 'Enter your password',
+              textController: typeTextEditingController,
+              hintText: 'Income/Expense',
             ),
             const SizedBox(
               height: 30,
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const VerifyPage()),
-                  );
-                },
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                    fontSize: sizer(true, 12, context),
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.deepGreenColor,
-                  ),
-                ),
+            Text(
+              'AMOUNT',
+              style: TextStyle(
+                fontSize: sizer(true, 12, context),
+                fontWeight: FontWeight.w500,
+                color: AppColors.textDark2,
               ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            GeneralTextField(
+              textController: amountTextEditingController,
+              hintText: 'Amount',
             ),
             const SizedBox(
               height: 30,
@@ -139,18 +134,11 @@ class _LoginPageState extends State<LoginPage> {
             Buttons(
               width: sizer(true, 317, context),
               color: AppColors.lightGreenColor,
-              buttonText: 'Login',
+              buttonText: 'Add Transaction',
               buttonTextColor: AppColors.textWhite,
             ),
             const SizedBox(
               height: 30,
-            ),
-            Buttons(
-              width: sizer(true, 317, context),
-              color: AppColors.primaryWhite,
-              hasButtonBorder: true,
-              buttonText: 'Login With Google',
-              buttonTextColor: AppColors.buttonGreenColor,
             ),
           ],
         ),

@@ -5,27 +5,9 @@ import 'package:transaction_app/utils/size_calculator.dart';
 import 'package:transaction_app/widgets/background_layout.dart';
 import 'package:transaction_app/widgets/box_container.dart';
 import 'package:transaction_app/widgets/buttons.dart';
-import 'package:transaction_app/widgets/general_textfield.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
-
-  @override
-  State<SignupPage> createState() => _SignupPageState();
-}
-
-class _SignupPageState extends State<SignupPage> {
-  final emailTextEditingController = TextEditingController();
-  final passwordTextEditingController = TextEditingController();
-  final nameTextEditingController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailTextEditingController.dispose();
-    passwordTextEditingController.dispose();
-    nameTextEditingController.dispose();
-    super.dispose();
-  }
+class VerifyPage extends StatelessWidget {
+  const VerifyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
                   height: 10,
                 ),
                 Text(
-                  'Register Here!',
+                  'Very Email',
                   style: TextStyle(
                     fontSize: sizer(true, 20, context),
                     fontWeight: FontWeight.w600,
@@ -69,70 +51,25 @@ class _SignupPageState extends State<SignupPage> {
       ),
       positionedChild: BoxContainer(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
             Text(
-              'NAME',
+              'A verification email has been sent to your email.',
               style: TextStyle(
-                fontSize: sizer(true, 12, context),
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark2,
+                fontSize: sizer(true, 18, context),
+                fontWeight: FontWeight.w600,
+                color: AppColors.textDark,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(
               height: 20,
-            ),
-            GeneralTextField(
-              textController: nameTextEditingController,
-              hintText: 'Enter your name',
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Text(
-              'EMAIL',
-              style: TextStyle(
-                fontSize: sizer(true, 12, context),
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark2,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            GeneralTextField(
-              textController: emailTextEditingController,
-              hintText: 'Enter your email',
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Text(
-              'PASSWORD',
-              style: TextStyle(
-                fontSize: sizer(true, 12, context),
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark2,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            GeneralTextField(
-              textController: passwordTextEditingController,
-              hintText: 'Enter your password',
-            ),
-            const SizedBox(
-              height: 30,
             ),
             Buttons(
               width: sizer(true, 317, context),
               color: AppColors.lightGreenColor,
-              buttonText: 'Sign Up',
+              buttonText: 'Resend Email',
               buttonTextColor: AppColors.textWhite,
             ),
             const SizedBox(
@@ -142,7 +79,7 @@ class _SignupPageState extends State<SignupPage> {
               width: sizer(true, 317, context),
               color: AppColors.primaryWhite,
               hasButtonBorder: true,
-              buttonText: 'Sign Up With Google',
+              buttonText: 'Cancel',
               buttonTextColor: AppColors.buttonGreenColor,
             ),
           ],

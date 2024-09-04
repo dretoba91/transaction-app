@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:transaction_app/screens/reset_password.dart';
-import 'package:transaction_app/screens/verify_page.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
@@ -9,23 +7,19 @@ import 'package:transaction_app/widgets/box_container.dart';
 import 'package:transaction_app/widgets/buttons.dart';
 import 'package:transaction_app/widgets/general_textfield.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResetPasswordState extends State<ResetPassword> {
   final emailTextEditingController = TextEditingController();
-  final passwordTextEditingController = TextEditingController();
-
-  final focusNode = FocusNode();
 
   @override
   void dispose() {
     emailTextEditingController.dispose();
-    passwordTextEditingController.dispose();
     super.dispose();
   }
 
@@ -57,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 Text(
-                  'Login Here',
+                  'Reset Password Here!',
                   style: TextStyle(
                     fontSize: sizer(true, 20, context),
                     fontWeight: FontWeight.w600,
@@ -71,12 +65,9 @@ class _LoginPageState extends State<LoginPage> {
       ),
       positionedChild: BoxContainer(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
             Text(
               'EMAIL',
               style: TextStyle(
@@ -91,47 +82,6 @@ class _LoginPageState extends State<LoginPage> {
             GeneralTextField(
               textController: emailTextEditingController,
               hintText: 'Enter your email',
-              focusNode: focusNode,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Text(
-              'PASSWORD',
-              style: TextStyle(
-                fontSize: sizer(true, 12, context),
-                fontWeight: FontWeight.w500,
-                color: AppColors.textDark2,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            GeneralTextField(
-              textController: passwordTextEditingController,
-              hintText: 'Enter your password',
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const VerifyPage()),
-                  );
-                },
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                    fontSize: sizer(true, 12, context),
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.deepGreenColor,
-                  ),
-                ),
-              ),
             ),
             const SizedBox(
               height: 30,
@@ -139,18 +89,11 @@ class _LoginPageState extends State<LoginPage> {
             Buttons(
               width: sizer(true, 317, context),
               color: AppColors.lightGreenColor,
-              buttonText: 'Login',
+              buttonText: 'Reset Password',
               buttonTextColor: AppColors.textWhite,
             ),
             const SizedBox(
               height: 30,
-            ),
-            Buttons(
-              width: sizer(true, 317, context),
-              color: AppColors.primaryWhite,
-              hasButtonBorder: true,
-              buttonText: 'Login With Google',
-              buttonTextColor: AppColors.buttonGreenColor,
             ),
           ],
         ),

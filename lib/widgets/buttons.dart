@@ -18,7 +18,7 @@ class Buttons extends StatelessWidget {
     this.buttonText,
     this.buttonTextColor,
     this.borderRadius = 8,
-    this.height = 51,
+    this.height = 41,
   });
 
   @override
