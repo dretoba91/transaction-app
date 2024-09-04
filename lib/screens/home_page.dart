@@ -4,16 +4,19 @@ import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
 import 'package:transaction_app/widgets/background_layout.dart';
 import 'package:transaction_app/widgets/buttons.dart';
+import 'package:transaction_app/widgets/card_tile.dart';
+import 'package:transaction_app/widgets/transaction_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtils.init(context);
     return BackgroundLayout(
       containerChild: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
@@ -32,6 +35,9 @@ class HomePage extends StatelessWidget {
                 color: AppColors.textWhite,
               ),
             ),
+            // const SizedBox(
+            //   height: 40,
+            // ),
           ],
         ),
       ),
@@ -52,18 +58,19 @@ class HomePage extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return const ListTile(
-                      title: Text('Testing transactions'),
-                      subtitle: Text(
-                          'This is just a testing progress for the list view builder inside a column in a positioned widget in a stack'),
+                    return const TransactionCard(
+                      child: CardTile(
+                        name: 'Netflix',
+                        type:
+                            'This is just a testing progress for the list view builder inside a column in a positioned widget in a stack',
+                        amount: '\$20,000',
+                      ),
                     );
                   }),
             ),
-
             const SizedBox(
               height: 20,
             ),
-        
             Buttons(
               width: sizer(true, 177, context),
               borderRadius: 40,
