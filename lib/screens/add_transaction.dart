@@ -16,10 +16,9 @@ class AddTransaction extends StatefulWidget {
 
 class _AddTransactionState extends State<AddTransaction> {
   final typeTextEditingController = TextEditingController();
-
   final amountTextEditingController = TextEditingController();
-
   final nameTextEditingController = TextEditingController();
+  final focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -36,36 +35,35 @@ class _AddTransactionState extends State<AddTransaction> {
       right: ScreenUtils.positionRight,
       top: ScreenUtils.positionTop,
       containerChild: Container(
-        margin: EdgeInsets.only(bottom: 80, left: ScreenUtils.positionRight),
+        margin: EdgeInsets.only(
+          bottom: 80,
+          left: ScreenUtils.positionRight,
+        ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Good afternoon',
-                  style: TextStyle(
-                    fontSize: sizer(true, 14, context),
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textWhite,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Register Here!',
-                  style: TextStyle(
-                    fontSize: sizer(true, 20, context),
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textWhite,
-                  ),
-                ),
-              ],
-            )
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_ios_new_outlined,
+                size: sizer(true, 20, context),
+                color: AppColors.primaryWhite,
+              ),
+            ),
+            const SizedBox(
+              width: 80,
+            ),
+            Text(
+              'Add Transaction',
+              style: TextStyle(
+                fontSize: sizer(true, 18, context),
+                fontWeight: FontWeight.w600,
+                color: AppColors.textWhite,
+              ),
+            ),
           ],
         ),
       ),
@@ -91,6 +89,7 @@ class _AddTransactionState extends State<AddTransaction> {
             GeneralTextField(
               textController: nameTextEditingController,
               hintText: 'Name of Income/Expense',
+              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
@@ -109,6 +108,7 @@ class _AddTransactionState extends State<AddTransaction> {
             GeneralTextField(
               textController: typeTextEditingController,
               hintText: 'Income/Expense',
+              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
@@ -127,6 +127,7 @@ class _AddTransactionState extends State<AddTransaction> {
             GeneralTextField(
               textController: amountTextEditingController,
               hintText: 'Amount',
+              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
@@ -136,6 +137,7 @@ class _AddTransactionState extends State<AddTransaction> {
               color: AppColors.lightGreenColor,
               buttonText: 'Add Transaction',
               buttonTextColor: AppColors.textWhite,
+              buttonClick: () {},
             ),
             const SizedBox(
               height: 30,

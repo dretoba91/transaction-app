@@ -19,7 +19,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();
-
   final focusNode = FocusNode();
 
   @override
@@ -57,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 Text(
-                  'Login Here',
+                  'Login Here!',
                   style: TextStyle(
                     fontSize: sizer(true, 20, context),
                     fontWeight: FontWeight.w600,
@@ -110,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
             GeneralTextField(
               textController: passwordTextEditingController,
               hintText: 'Enter your password',
+              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,

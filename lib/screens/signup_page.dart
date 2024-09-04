@@ -18,6 +18,7 @@ class _SignupPageState extends State<SignupPage> {
   final emailTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();
   final nameTextEditingController = TextEditingController();
+  final focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -89,6 +90,7 @@ class _SignupPageState extends State<SignupPage> {
             GeneralTextField(
               textController: nameTextEditingController,
               hintText: 'Enter your name',
+              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
@@ -107,6 +109,7 @@ class _SignupPageState extends State<SignupPage> {
             GeneralTextField(
               textController: emailTextEditingController,
               hintText: 'Enter your email',
+              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
@@ -125,6 +128,7 @@ class _SignupPageState extends State<SignupPage> {
             GeneralTextField(
               textController: passwordTextEditingController,
               hintText: 'Enter your password',
+              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
