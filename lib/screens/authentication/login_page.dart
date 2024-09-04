@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:transaction_app/screens/reset_password.dart';
-import 'package:transaction_app/screens/verify_page.dart';
+import 'package:transaction_app/screens/authentication/reset_password.dart';
+import 'package:transaction_app/screens/authentication/verify_page.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
