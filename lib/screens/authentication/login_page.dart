@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:transaction_app/screens/authentication/reset_password.dart';
+import 'package:transaction_app/screens/authentication/signup_page.dart';
 import 'package:transaction_app/screens/authentication/verify_page.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
@@ -27,6 +29,9 @@ class _LoginPageState extends State<LoginPage> {
     passwordTextEditingController.dispose();
     super.dispose();
   }
+
+  // Login logic
+  Future<void> login() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +157,42 @@ class _LoginPageState extends State<LoginPage> {
               buttonText: 'Login With Google',
               buttonTextColor: AppColors.buttonGreenColor,
             ),
+            const SizedBox(
+              height: 100,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Not register? ',
+                      style: TextStyle(
+                        fontSize: sizer(true, 14, context),
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textDark2,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Register',
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignupPage()),
+                          );
+                        },
+                      style: TextStyle(
+                        fontSize: sizer(true, 16, context),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.deepGreenColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "802873063793",
+    "project_id": "transaction-app-22461",
+    "storage_bucket": "transaction-app-22461.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802873063793:android:76f9e9cd8b263484bd9ed0",
+        "android_client_info": {
+          "package_name": "com.example.transaction_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpDmvX_CUb0T--eFqXZcGvHVPKIb7y7_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
