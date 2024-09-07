@@ -9,6 +9,7 @@ import 'package:transaction_app/screens/authentication/verify_page.dart';
 import 'package:transaction_app/screens/home_page.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
+import 'package:transaction_app/utils/routes.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
 import 'package:transaction_app/widgets/background_layout.dart';
 import 'package:transaction_app/widgets/box_container.dart';
@@ -202,10 +203,9 @@ class _LoginPageState extends State<LoginPage> {
                       text: 'Register',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.push(
+                          Navigator.pushNamed(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignupPage()),
+                            RouteHelper.signupRoute,
                           );
                         },
                       style: TextStyle(

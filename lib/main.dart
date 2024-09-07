@@ -4,6 +4,7 @@ import 'package:transaction_app/firebase_options.dart';
 import 'package:transaction_app/screens/home_page.dart';
 import 'package:transaction_app/screens/authentication/login_page.dart';
 import 'package:transaction_app/screens/authentication/signup_page.dart';
+import 'package:transaction_app/utils/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const LoginPage(),
+      onGenerateRoute: RouteHelper().generateRoute,
     );
   }
 }
