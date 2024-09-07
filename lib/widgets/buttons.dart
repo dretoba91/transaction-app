@@ -10,7 +10,7 @@ class Buttons extends StatelessWidget {
   final Color? buttonTextColor;
   final double borderRadius;
   final double height;
-  final Function? buttonClick;
+  final VoidCallback? buttonClick;
   const Buttons({
     super.key,
     this.width,
@@ -28,9 +28,7 @@ class Buttons extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: GestureDetector(
-        onTap: () {
-          buttonClick!.call();
-        },
+        onTap: buttonClick,
         child: Container(
           height: sizer(false, height, context),
           width: width,

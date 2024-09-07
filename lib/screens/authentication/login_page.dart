@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:transaction_app/screens/authentication/reset_password.dart';
 import 'package:transaction_app/screens/authentication/signup_page.dart';
 import 'package:transaction_app/screens/authentication/verify_page.dart';
+import 'package:transaction_app/screens/home_page.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
@@ -31,7 +35,21 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // Login logic
-  Future<void> login() async {}
+  Future<void> login() async {
+    final email = emailTextEditingController.text;
+    final password = passwordTextEditingController.text;
+    try {
+      final userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      log("is user verified? ==> ${userCredential.user!.emailVerified}");
+      log("is user verified? ==> ${userCredential.user}");
+    } catch (e) {
+      log("sign in error: ${e.toString()}");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +113,6 @@ class _LoginPageState extends State<LoginPage> {
             GeneralTextField(
               textController: emailTextEditingController,
               hintText: 'Enter your email',
-              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
@@ -114,7 +131,6 @@ class _LoginPageState extends State<LoginPage> {
             GeneralTextField(
               textController: passwordTextEditingController,
               hintText: 'Enter your password',
-              focusNode: focusNode,
             ),
             const SizedBox(
               height: 30,
@@ -125,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const VerifyPage()),
+                    MaterialPageRoute(builder: (_) => const VerifyPage()),
                   );
                 },
                 child: Text(
@@ -146,6 +162,15 @@ class _LoginPageState extends State<LoginPage> {
               color: AppColors.lightGreenColor,
               buttonText: 'Login',
               buttonTextColor: AppColors.textWhite,
+              buttonClick: () {
+                login();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
+                );
+              },
             ),
             const SizedBox(
               height: 30,
