@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transaction_app/screens/authentication/verify_page.dart';
 import 'package:transaction_app/screens/home_page.dart';
+import 'package:transaction_app/services/auth_services.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
@@ -24,31 +26,6 @@ class _SignupPageState extends State<SignupPage> {
   final passwordTextEditingController = TextEditingController();
   final nameTextEditingController = TextEditingController();
   final focusNode = FocusNode();
-
-  Future<void> signUpUser() async {
-    log('calling sign up');
-    final email = emailTextEditingController.text;
-    final password = passwordTextEditingController.text;
-    final name = nameTextEditingController.text;
-    try {
-      log('===> validation passed!!!!');
-      final userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      // creating User collection
-      User user = userCredential.user!;
-      user.updateDisplayName(name);
-
-      // if (emailVal(email) != null && passwordVal(password) != null) {
-
-      // }
-    } catch (e) {
-      log('error ===> $e');
-    }
-  }
 
   @override
   void dispose() {
@@ -183,11 +160,21 @@ class _SignupPageState extends State<SignupPage> {
                 buttonText: 'Sign Up',
                 buttonTextColor: AppColors.textWhite,
                 buttonClick: () {
-                  signUpUser();
+                  // signUpUser();
+                  final email = emailTextEditingController.text;
+                  final password = passwordTextEditingController.text;
+                  final name = nameTextEditingController.text;
+                  AuthService.instance.signUpUser(
+                    email: email,
+                    password: password,
+                    name: name,
+                  );
                   // auto routing to the homepage
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const HomePage()),
+                    MaterialPageRoute(
+                      builder: (_) => const VerifyPage(),
+                    ),
                   );
                 },
               ),

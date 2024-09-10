@@ -1,13 +1,56 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transaction_app/services/auth_services.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
+import 'package:transaction_app/utils/routes.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
 import 'package:transaction_app/widgets/background_layout.dart';
 import 'package:transaction_app/widgets/box_container.dart';
 import 'package:transaction_app/widgets/buttons.dart';
 
-class VerifyPage extends StatelessWidget {
+class VerifyPage extends StatefulWidget {
   const VerifyPage({super.key});
+
+  @override
+  State<VerifyPage> createState() => _VerifyPageState();
+}
+
+class _VerifyPageState extends State<VerifyPage> {
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    log("****** init state**** called!!!");
+    AuthService.instance.sendVerifyEmailLink();
+
+    timer = Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) {
+        User? user = FirebaseAuth.instance.currentUser;
+        log("****** inside timer");
+        user?.reload();
+        log("**# user reloaded ===>");
+        if (user?.emailVerified == true) {
+          log("navigating to home page******");
+          Navigator.pushReplacementNamed(
+            context,
+            RouteHelper.homePageRoute,
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +114,9 @@ class VerifyPage extends StatelessWidget {
               color: AppColors.lightGreenColor,
               buttonText: 'Resend Email',
               buttonTextColor: AppColors.textWhite,
+              buttonClick: () {
+                AuthService.instance.sendVerifyEmailLink();
+              },
             ),
             const SizedBox(
               height: 30,

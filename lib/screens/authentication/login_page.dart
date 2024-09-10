@@ -7,6 +7,7 @@ import 'package:transaction_app/screens/authentication/reset_password.dart';
 import 'package:transaction_app/screens/authentication/signup_page.dart';
 import 'package:transaction_app/screens/authentication/verify_page.dart';
 import 'package:transaction_app/screens/home_page.dart';
+import 'package:transaction_app/services/auth_services.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/routes.dart';
@@ -33,23 +34,6 @@ class _LoginPageState extends State<LoginPage> {
     emailTextEditingController.dispose();
     passwordTextEditingController.dispose();
     super.dispose();
-  }
-
-  // Login logic
-  Future<void> login() async {
-    final email = emailTextEditingController.text;
-    final password = passwordTextEditingController.text;
-    try {
-      final userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      log("is user verified? ==> ${userCredential.user!.emailVerified}");
-      log("is user verified? ==> ${userCredential.user}");
-    } catch (e) {
-      log("sign in error: ${e.toString()}");
-    }
   }
 
   @override
@@ -164,13 +148,21 @@ class _LoginPageState extends State<LoginPage> {
               buttonText: 'Login',
               buttonTextColor: AppColors.textWhite,
               buttonClick: () {
-                login();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ),
-                );
+                // login();
+                final email = emailTextEditingController.text;
+                final password = passwordTextEditingController.text;
+                AuthService.instance
+                    .login(
+                  email: email,
+                  password: password,
+                )
+                    .whenComplete(() {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    RouteHelper.homePageRoute,
+                  );
+                });
+                
               },
             ),
             const SizedBox(

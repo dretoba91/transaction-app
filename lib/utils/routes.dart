@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transaction_app/screens/authentication/login_page.dart';
 import 'package:transaction_app/screens/authentication/signup_page.dart';
+import 'package:transaction_app/screens/authentication/verify_page.dart';
 import 'package:transaction_app/screens/home_page.dart';
 
 class RouteHelper {
@@ -35,6 +36,12 @@ class RouteHelper {
         return getPageRouteBuilder(
           routeName: homePageRoute,
           child: const HomePage(),
+        );
+
+      case verifyPageRoute:
+        return getPageRouteBuilder(
+          routeName: verifyPageRoute,
+          child: const VerifyPage(),
         );
 
       default:
