@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transaction_app/screens/add_transaction.dart';
 import 'package:transaction_app/screens/authentication/login_page.dart';
 import 'package:transaction_app/screens/authentication/signup_page.dart';
 import 'package:transaction_app/screens/authentication/verify_page.dart';
@@ -42,6 +43,12 @@ class RouteHelper {
         return getPageRouteBuilder(
           routeName: verifyPageRoute,
           child: const VerifyPage(),
+        );
+
+      case addTransactionRoute:
+        return getPageRouteBuilder(
+          routeName: addTransactionRoute,
+          child: const AddTransaction(),
         );
 
       default:

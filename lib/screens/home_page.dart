@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transaction_app/models/transaction_model.dart';
 import 'package:transaction_app/screens/add_transaction.dart';
+import 'package:transaction_app/services/api.dart';
 import 'package:transaction_app/services/auth_services.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
@@ -22,12 +24,34 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late User? user;
+  late final String userId;
+  late Future<List<Transactions>> futureTransactions;
+  final apiService = ApiService.instance;
 
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser;
+    userId = user!.uid;
     log("*** home page => $user **");
+    getAllTransactions();
+  }
+
+  Future<void> getAllTransactions() async {
+    log("*** homepage userID => $userId **");
+
+    futureTransactions = readTransaction();
+    setState(() {});
+
+    log("*** homepage transact => $futureTransactions **");
+  }
+
+  Future<List<Transactions>> readTransaction() async {
+    final transactions = await apiService.getTransactions(userId, context);
+
+    return transactions
+        .map((doc) => Transactions.fromJson(doc.data()))
+        .toList();
   }
 
   @override
@@ -127,9 +151,9 @@ class _HomePageState extends State<HomePage> {
                     return const TransactionCard(
                       child: CardTile(
                         name: 'Netflix',
-                        type:
-                            'This is just a testing progress for the list view builder inside a column in a positioned widget in a stack',
+                        type: 'This is just ',
                         amount: '\$20,000',
+                        dateTime: 'Sept 19',
                       ),
                     );
                   }),
@@ -145,11 +169,9 @@ class _HomePageState extends State<HomePage> {
               buttonTextColor: AppColors.textWhite,
               color: AppColors.lightGreenColor,
               buttonClick: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const AddTransaction(),
-                  ),
+                  RouteHelper.addTransactionRoute,
                 );
               },
             )

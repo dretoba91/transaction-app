@@ -17,7 +17,7 @@ class TransactionCard extends StatelessWidget {
       height: 100,
       // width: ScreenUtils.screenWidth * 0.50,
       margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
           Radius.circular(12),
@@ -28,7 +28,7 @@ class TransactionCard extends StatelessWidget {
         color: AppColors.primaryWhite,
         boxShadow: const <BoxShadow>[
           BoxShadow(
-            color: AppColors.lightGrey,
+            color: Color.fromARGB(255, 138, 137, 137),
             offset: Offset(6, 6),
             blurRadius: 16,
           ),

@@ -6,12 +6,13 @@ class CardTile extends StatelessWidget {
   final String name;
   final String type;
   final String amount;
-  const CardTile({
-    super.key,
-    required this.name,
-    required this.type,
-    required this.amount,
-  });
+  final String dateTime;
+  const CardTile(
+      {super.key,
+      required this.name,
+      required this.type,
+      required this.amount,
+      required this.dateTime});
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +28,36 @@ class CardTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: sizer(true, 16, context),
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textDark2,
+                Expanded(
+                  flex: 6,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: sizer(true, 16, context),
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textDark2,
+                        ),
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        dateTime,
+                        style: TextStyle(
+                          fontSize: sizer(true, 13, context),
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.lightGreenColor,
+                        ),
+                        softWrap: true,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  softWrap: true,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   type,
@@ -46,7 +67,7 @@ class CardTile extends StatelessWidget {
                     color: AppColors.textDark2,
                   ),
                   softWrap: true,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

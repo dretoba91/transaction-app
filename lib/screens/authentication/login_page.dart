@@ -153,15 +153,11 @@ class _LoginPageState extends State<LoginPage> {
                 final password = passwordTextEditingController.text;
                 AuthService.instance
                     .login(
-                  email: email,
-                  password: password,
-                )
-                    .whenComplete(() {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    RouteHelper.homePageRoute,
-                  );
-                });
+                  email,
+                  password,
+                  context,
+                );
+                
                 
               },
             ),
