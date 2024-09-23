@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Transactions {
   final String name;
   final String type;
   final double amount;
   final String userId;
   final String id;
+  final Timestamp createdAt;
   // final String? date;
 
   Transactions({
@@ -12,7 +15,7 @@ class Transactions {
     required this.amount,
     required this.userId,
     required this.id,
-    // this.date,
+    required this.createdAt,
   });
 
   // from Json method
@@ -24,6 +27,7 @@ class Transactions {
       amount: json['amount'],
       userId: json['userId'],
       id: json['id'],
+      createdAt: json['createdAt'],
     );
   }
 
@@ -34,5 +38,6 @@ class Transactions {
         'amount': amount,
         'userId': userId,
         'id': id,
+        'createdAt': createdAt,
       };
 }

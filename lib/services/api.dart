@@ -35,6 +35,7 @@ class ApiService {
       amount: amount,
       userId: userId,
       id: transactionId,
+        createdAt: Timestamp.now()
     );
 
     try {
@@ -43,9 +44,10 @@ class ApiService {
         transactionRef.set(transact);
       }
     } on FirebaseException catch (e) {
-      SnackBarHandler(
-        message: e.toString(),
-      ).show(context);
+      snackBarHandler(
+        context: context,
+        message: e.message!,
+      );
     }
   }
 
@@ -55,19 +57,26 @@ class ApiService {
     * convert the Json data using the fromJson method in the Transaction model class
    */
 
-  Future getTransactions(String userId, BuildContext context) async {
-    try {
-      final QuerySnapshot transactions = await _firebaseDb
+  Future<List<Transactions>> getTransactions(
+      String userId, BuildContext context) async {
+    // late final  transactions;
+    final transactions = await _firebaseDb
           .collection('Transactions')
           .where('userId', isEqualTo: userId)
           .get();
-      return transactions;
-    } on FirebaseException catch (e) {
-      SnackBarHandler(
-        message: e.toString(),
-        // ignore: use_build_context_synchronously
-      ).show(context);
-    }
+    return transactions.docs
+        .map(
+          (doc) => Transactions.fromJson(doc.data()),
+        )
+        .toList();
+    // try {
+
+    // } on FirebaseException catch (e) {
+    //   snackBarHandler(
+    //     context: context,
+    //     message: e.message!,
+    //   );
+    // }
   }
 
   // Update Method
@@ -84,9 +93,8 @@ class ApiService {
 
   // Coverting date time string to a formatted date (MM, dd)
 
-  String formatedDateTime(String dateTimeString) {
-    DateTime dateTime = DateTime.parse(dateTimeString);
-    String formatedDate = DateFormat('MMM dd').format(dateTime);
-    return formatedDate;
+  String formatedDateTime(Timestamp dateTime) {
+    final format = DateFormat('d MMM y');
+    return format.format(dateTime.toDate());
   }
 }

@@ -5,7 +5,7 @@ import 'package:transaction_app/utils/size_calculator.dart';
 class CardTile extends StatelessWidget {
   final String name;
   final String type;
-  final String amount;
+  final double amount;
   final String dateTime;
   const CardTile(
       {super.key,
@@ -34,16 +34,19 @@ class CardTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: sizer(true, 16, context),
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textDark2,
+                      Expanded(
+                        flex: 6,
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: sizer(true, 16, context),
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textDark2,
+                          ),
+                          softWrap: true,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        softWrap: true,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         dateTime,
@@ -53,7 +56,7 @@ class CardTile extends StatelessWidget {
                           color: AppColors.lightGreenColor,
                         ),
                         softWrap: true,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -75,7 +78,7 @@ class CardTile extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 4,
+          flex: 2,
           child: Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
@@ -90,7 +93,7 @@ class CardTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  amount,
+                  amount.toString(),
                   style: TextStyle(
                     fontSize: sizer(true, 14, context),
                     fontWeight: FontWeight.w600,

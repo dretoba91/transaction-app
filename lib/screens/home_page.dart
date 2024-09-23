@@ -39,6 +39,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> getAllTransactions() async {
     log("*** homepage userID => $userId **");
+    // final transactions = await apiService.getTransactions(userId, context);
+    log("*** homepage read => ${readTransaction()} **");
 
     futureTransactions = readTransaction();
     setState(() {});
@@ -49,9 +51,7 @@ class _HomePageState extends State<HomePage> {
   Future<List<Transactions>> readTransaction() async {
     final transactions = await apiService.getTransactions(userId, context);
 
-    return transactions
-        .map((doc) => Transactions.fromJson(doc.data()))
-        .toList();
+    return transactions.toList();
   }
 
   @override
@@ -143,19 +143,43 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               flex: 8,
-              child: ListView.builder(
-                  itemCount: 20,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return const TransactionCard(
-                      child: CardTile(
-                        name: 'Netflix',
-                        type: 'This is just ',
-                        amount: '\$20,000',
-                        dateTime: 'Sept 19',
-                      ),
-                    );
+              child: FutureBuilder<List<Transactions>>(
+                  future: futureTransactions,
+                  builder: (context, snapShot) {
+                    if (snapShot.hasData) {
+                      final transactions = snapShot.data!;
+                      //
+                      return ListView.builder(
+                          itemCount: transactions.length,
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            final transacts = transactions[index];
+                            return TransactionCard(
+                              child: CardTile(
+                                name: transacts.name,
+                                type: transacts.type,
+                                amount: transacts.amount,
+                                dateTime: apiService
+                                    .formatedDateTime(transacts.createdAt),
+                              ),
+                            );
+                          });
+                    } else {
+                      return const Center(
+                        child: SizedBox(
+                          height: 200,
+                          child: Text(
+                            'No transactions yet!!! 🙇🏽‍♂️🙇🏽‍♀️',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   }),
             ),
             const SizedBox(
