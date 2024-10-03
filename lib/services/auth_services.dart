@@ -90,4 +90,12 @@ class AuthService {
       log("siging out error: ${e.toString()}");
     }
   }
+
+  // Checking User Auth state
+
+  Future<bool> checkUserAuthState() async {
+    final isLoggedIn = _firebaseAuth.currentUser != null;
+    log("**is it currentUser: $isLoggedIn");
+    return isLoggedIn;
+  }
 }
