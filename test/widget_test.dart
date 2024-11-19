@@ -7,13 +7,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:transaction_app/data/services/api.dart';
+import 'package:transaction_app/data/transaction_repository.dart';
 
 import 'package:transaction_app/main.dart';
 
 void main() {
+  final transactRepository =
+      TransactionRepository(apiService: ApiService.instance);
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp(
+      transactRepository: transactRepository,
+    ));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

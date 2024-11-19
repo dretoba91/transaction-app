@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transaction_app/services/auth_services.dart';
+import 'package:transaction_app/data/services/auth_services.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/routes.dart';

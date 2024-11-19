@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:transaction_app/services/auth_services.dart';
-import 'package:transaction_app/utils/colors.dart';
+import 'package:transaction_app/data/services/auth_services.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/routes.dart';
 

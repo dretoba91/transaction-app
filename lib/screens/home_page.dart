@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:transaction_app/data/transaction_repository.dart';
 import 'package:transaction_app/models/transaction_model.dart';
+import 'package:transaction_app/models/types.dart';
 import 'package:transaction_app/screens/add_transaction.dart';
-import 'package:transaction_app/services/api.dart';
-import 'package:transaction_app/services/auth_services.dart';
+import 'package:transaction_app/data/services/api.dart';
+import 'package:transaction_app/data/services/auth_services.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/routes.dart';
@@ -27,6 +29,8 @@ class _HomePageState extends State<HomePage> {
   late final String userId;
   late Future<List<Transactions>> futureTransactions;
   final apiService = ApiService.instance;
+  final transactionRepository =
+      TransactionRepository(apiService: ApiService.instance);
 
   @override
   void initState() {
@@ -34,24 +38,36 @@ class _HomePageState extends State<HomePage> {
     user = FirebaseAuth.instance.currentUser;
     userId = user!.uid;
     log("*** home page => $user **");
-    getAllTransactions();
+    // getAllTransactions();
   }
 
-  Future<void> getAllTransactions() async {
-    log("*** homepage userID => $userId **");
-    // final transactions = await apiService.getTransactions(userId, context);
-    log("*** homepage read => ${readTransaction()} **");
+  // Future<void> getAllTransactions() async {
+  //   log("*** homepage userID => $userId **");
+  //   // final transactions = await apiService.getTransactions(userId, context);
+  //   log("*** homepage read => ${readTransaction()} **");
 
-    futureTransactions = readTransaction();
-    setState(() {});
+  //   futureTransactions = readTransaction();
+  //   setState(() {});
 
-    log("*** homepage transact => $futureTransactions **");
+  //   log("*** homepage transact => $futureTransactions **");
+  // }
+
+  Stream<List<Transactions>> getAllTransactions() {
+    return readTransaction().map((transaction) {
+      return transaction;
+    });
   }
 
-  Future<List<Transactions>> readTransaction() async {
-    final transactions = await apiService.getTransactions(userId, context);
+  // Future<List<Transactions>> readTransaction() async {
+  //   final transactions = await apiService.getTransactions(userId, context);
 
-    return transactions.toList();
+  //   return transactions.toList();
+  // }
+
+  Stream<List<Transactions>> readTransaction() {
+    return transactionRepository.readTransactions(userId).map((transactions) {
+      return transactions.toList();
+    });
   }
 
   @override
@@ -143,44 +159,70 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               flex: 8,
-              child: FutureBuilder<List<Transactions>>(
-                  future: futureTransactions,
-                  builder: (context, snapShot) {
-                    if (snapShot.hasData) {
-                      final transactions = snapShot.data!;
-                      //
-                      return ListView.builder(
-                          itemCount: transactions.length,
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final transacts = transactions[index];
-                            return TransactionCard(
-                              child: CardTile(
-                                name: transacts.name,
-                                type: transacts.type,
-                                amount: transacts.amount,
-                                dateTime: apiService
-                                    .formatedDateTime(transacts.createdAt),
-                              ),
-                            );
-                          });
-                    } else {
-                      return const Center(
-                        child: SizedBox(
-                          height: 200,
-                          child: Text(
-                            'No transactions yet!!! 🙇🏽‍♂️🙇🏽‍♀️',
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black54,
-                            ),
+              child: StreamBuilder<List<Transactions>>(
+                stream: getAllTransactions(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(
+                        color: AppColors.buttonGreenColor,
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: SizedBox(
+                        height: 200,
+                        child: Text(
+                          'Error: ${snapshot.error}',
+                          style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54,
                           ),
                         ),
-                      );
-                    }
-                  }),
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: SizedBox(
+                        height: 200,
+                        child: Text(
+                          'No transactions yet!!! 🙇🏽‍♂️🙇🏽‍♀️',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    final transactions = snapshot.data!;
+                    return ListView.builder(
+                        itemCount: transactions.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final transacts = transactions[index];
+                          return TransactionCard(
+                            onCardPressed: () => AddTransaction(
+                              isEditMode: true,
+                              transaction: transacts,
+                            ),
+                            child: CardTile(
+                              name: transacts.name,
+                              type: transacts.type.toName,
+                              amount: transacts.amount,
+                              dateTime: transactionRepository
+                                  .formatedDateTime(transacts.createdAt),
+                            ),
+                          );
+                        });
+                  }
+                },
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -188,7 +230,7 @@ class _HomePageState extends State<HomePage> {
             Buttons(
               width: sizer(true, 177, context),
               borderRadius: 40,
-              height: 54,
+              height: 44,
               buttonText: 'Add Transaction',
               buttonTextColor: AppColors.textWhite,
               color: AppColors.lightGreenColor,

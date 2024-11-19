@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transaction_app/services/api.dart';
-import 'package:transaction_app/services/auth_services.dart';
+import 'package:transaction_app/data/services/api.dart';
+import 'package:transaction_app/data/transaction_repository.dart';
+import 'package:transaction_app/models/transaction_model.dart';
+import 'package:transaction_app/models/types.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/size_calculator.dart';
@@ -9,9 +11,16 @@ import 'package:transaction_app/widgets/background_layout.dart';
 import 'package:transaction_app/widgets/box_container.dart';
 import 'package:transaction_app/widgets/buttons.dart';
 import 'package:transaction_app/widgets/general_textfield.dart';
+import 'package:transaction_app/widgets/type_dropdown.dart';
 
 class AddTransaction extends StatefulWidget {
-  const AddTransaction({super.key});
+  final Transactions? transaction;
+  final bool? isEditMode;
+  const AddTransaction({
+    super.key,
+    this.transaction,
+    this.isEditMode = false,
+  });
 
   @override
   State<AddTransaction> createState() => _AddTransactionState();
@@ -22,17 +31,32 @@ class _AddTransactionState extends State<AddTransaction> {
   final amountTextEditingController = TextEditingController();
   final nameTextEditingController = TextEditingController();
   final focusNode = FocusNode();
-  final apiService = ApiService.instance;
+  final transactionRepository =
+      TransactionRepository(apiService: ApiService.instance);
   final firebaseAuth = FirebaseAuth.instance;
 
-  Future addTransaction() async {
-    final name = nameTextEditingController.text;
-    final type = typeTextEditingController.text;
-    final amount = double.tryParse(amountTextEditingController.text);
-    final userId = firebaseAuth.currentUser?.uid;
-
-    apiService.createTransaction(name, type, amount!, userId!, context);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.isEditMode!) {
+      setState(() {
+        nameTextEditingController.text = widget.transaction!.name;
+        typeTextEditingController.text = widget.transaction!.type.toName;
+        amountTextEditingController.text =
+            widget.transaction!.amount.toString();
+      });
+    }
   }
+
+  // Future addTransaction() async {
+  //   final name = nameTextEditingController.text;
+  //   final type = typeTextEditingController.text;
+  //   final amount = double.tryParse(amountTextEditingController.text);
+  //   final userId = firebaseAuth.currentUser?.uid;
+
+  //   apiService.createTransaction(name, type, amount!, userId!, context);
+  // }
 
   @override
   void dispose() {
@@ -107,6 +131,7 @@ class _AddTransactionState extends State<AddTransaction> {
               const SizedBox(
                 height: 20,
               ),
+
               GeneralTextField(
                 textController: nameTextEditingController,
                 hintText: 'Name of Income/Expense',
@@ -126,11 +151,16 @@ class _AddTransactionState extends State<AddTransaction> {
               const SizedBox(
                 height: 20,
               ),
-              GeneralTextField(
+
+              TypeDropdown(
                 textController: typeTextEditingController,
-                hintText: 'Income/Expense',
-                // focusNode: focusNode,
               ),
+
+              // GeneralTextField(
+              //   textController: typeTextEditingController,
+              //   hintText: 'Income/Expense',
+              //   // focusNode: focusNode,
+              // ),
               const SizedBox(
                 height: 30,
               ),
@@ -160,7 +190,20 @@ class _AddTransactionState extends State<AddTransaction> {
                 buttonText: 'Add Transaction',
                 buttonTextColor: AppColors.textWhite,
                 buttonClick: () {
-                  addTransaction();
+                  final name = nameTextEditingController.text;
+                  final type = Types.fromJson(typeTextEditingController.text);
+                  final amount =
+                      double.tryParse(amountTextEditingController.text);
+                  final userId = firebaseAuth.currentUser?.uid;
+                  if (widget.isEditMode!) {
+                    transactionRepository.updateTransaction(
+                        name, amount!, type, userId!, widget.transaction!.id);
+                  } else {
+                    transactionRepository.addTransaction(
+                        name, amount!, type, userId!);
+                  }
+
+                  Navigator.pop(context);
                 },
               ),
               const SizedBox(

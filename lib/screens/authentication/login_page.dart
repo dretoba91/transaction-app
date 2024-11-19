@@ -7,7 +7,7 @@ import 'package:transaction_app/screens/authentication/reset_password.dart';
 import 'package:transaction_app/screens/authentication/signup_page.dart';
 import 'package:transaction_app/screens/authentication/verify_page.dart';
 import 'package:transaction_app/screens/home_page.dart';
-import 'package:transaction_app/services/auth_services.dart';
+import 'package:transaction_app/data/services/auth_services.dart';
 import 'package:transaction_app/utils/colors.dart';
 import 'package:transaction_app/utils/constants.dart';
 import 'package:transaction_app/utils/routes.dart';

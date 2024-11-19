@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
+import 'package:transaction_app/models/types.dart';
 
-class Transactions {
+class Transactions extends Equatable {
   final String name;
-  final String type;
+  final Types type;
   final double amount;
   final String userId;
   final String id;
@@ -20,11 +22,13 @@ class Transactions {
 
   // from Json method
 
-  static Transactions fromJson(Map<String, dynamic> json) {
+  factory Transactions.fromJson(Map<dynamic, dynamic> json) {
     return Transactions(
       name: json['name'],
-      type: json['type'],
-      amount: json['amount'],
+      type: Types.fromJson(json['type']),
+      amount: json['amount'] is double
+          ? json['amount']
+          : double.parse(json['amount']),
       userId: json['userId'],
       id: json['id'],
       createdAt: json['createdAt'],
@@ -34,10 +38,41 @@ class Transactions {
   // to Json method
   Map<String, dynamic> toJson() => {
         'name': name,
-        'type': type,
-        'amount': amount,
+        'type': type.toJson(),
+        'amount': amount.toString(),
         'userId': userId,
         'id': id,
         'createdAt': createdAt,
       };
+
+  // CopyWith method
+
+  Transactions copyWith(
+      {String? name,
+      Types? type,
+      double? amount,
+      String? userId,
+      Timestamp? createdAt}) {
+    return Transactions(
+        name: name ?? this.name,
+        type: type ?? this.type,
+        amount: amount ?? this.amount,
+        userId: userId ?? this.userId,
+        id: id,
+        createdAt: createdAt ?? this.createdAt);
+  }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        name,
+        type,
+        amount,
+        userId,
+        id,
+        createdAt,
+      ];
+
+  @override
+  bool get stringify => true;
 }
