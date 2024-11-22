@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:transaction_app/data/services/api.dart';
-import 'package:transaction_app/data/transaction_repository.dart';
+import 'package:transaction_app/data/services/api_exception.dart';
+import 'package:transaction_app/data/repositories/transaction_repository.dart';
 import 'package:transaction_app/models/transaction_model.dart';
 import 'package:transaction_app/models/types.dart';
 import 'package:transaction_app/utils/colors.dart';
@@ -195,12 +196,21 @@ class _AddTransactionState extends State<AddTransaction> {
                   final amount =
                       double.tryParse(amountTextEditingController.text);
                   final userId = firebaseAuth.currentUser?.uid;
-                  if (widget.isEditMode!) {
-                    transactionRepository.updateTransaction(
-                        name, amount!, type, userId!, widget.transaction!.id);
-                  } else {
-                    transactionRepository.addTransaction(
-                        name, amount!, type, userId!);
+                  try {
+                    if (widget.isEditMode!) {
+                      transactionRepository.updateTransaction(name, amount!,
+                          type, userId!, widget.transaction!.id, context);
+                    } else {
+                      transactionRepository.addTransaction(
+                          name, amount!, type, userId!, context);
+                    }
+                  } on ApiException catch (e) {
+                    // Show the error dialog in the UI layer
+                    ApiException.show(context, e.code ?? "unknown-error",
+                        message: e.message);
+                  } catch (e) {
+                    // Handle unexpected errors gracefully
+                    ApiException.show(context, "An unexpected error occurred");
                   }
 
                   Navigator.pop(context);

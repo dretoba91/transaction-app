@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transaction_app/data/transaction_repository.dart';
+import 'package:transaction_app/data/repositories/transaction_repository.dart';
 import 'package:transaction_app/models/transaction_model.dart';
 import 'package:transaction_app/models/types.dart';
 import 'package:transaction_app/screens/add_transaction.dart';

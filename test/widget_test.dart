@@ -7,18 +7,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:transaction_app/data/repositories/auth_repository.dart';
 import 'package:transaction_app/data/services/api.dart';
-import 'package:transaction_app/data/transaction_repository.dart';
+import 'package:transaction_app/data/repositories/transaction_repository.dart';
+import 'package:transaction_app/data/services/auth_services.dart';
 
 import 'package:transaction_app/main.dart';
 
 void main() {
   final transactRepository =
       TransactionRepository(apiService: ApiService.instance);
+  final authRepository = AuthRepository(authService: AuthService.instance);
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp(
       transactRepository: transactRepository,
+      authRepository: authRepository,
     ));
 
     // Verify that our counter starts at 0.

@@ -58,28 +58,6 @@ class ApiService {
             .toList());
   }
 
-  // Future<List<Transactions>> getTransactions(
-  //     String userId, BuildContext context) async {
-  //   // late final  transactions;
-  //   final transactions = await _firebaseDb
-  //         .collection('Transactions')
-  //         .where('userId', isEqualTo: userId)
-  //         .get();
-  //   return transactions.docs
-  //       .map(
-  //         (doc) => Transactions.fromJson(doc.data()),
-  //       )
-  //       .toList();
-  //   // try {
-
-  //   // } on FirebaseException catch (e) {
-  //   //   snackBarHandler(
-  //   //     context: context,
-  //   //     message: e.message!,
-  //   //   );
-  //   // }
-  // }
-
   // Update Method
 
   Future updateTransaction(Transactions transacts, String id) async {
@@ -91,7 +69,7 @@ class ApiService {
         transactionRef.update(transact);
       }
     } on FirebaseException catch (e) {
-      throw ApiException("${e.message}");
+      throw ApiException(e.code);
     }
   }
 

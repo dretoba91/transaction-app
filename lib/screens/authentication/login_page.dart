@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:transaction_app/data/services/api_exception.dart';
 import 'package:transaction_app/screens/authentication/reset_password.dart';
 import 'package:transaction_app/screens/authentication/signup_page.dart';
 import 'package:transaction_app/screens/authentication/verify_page.dart';
@@ -151,14 +152,21 @@ class _LoginPageState extends State<LoginPage> {
                 // login();
                 final email = emailTextEditingController.text;
                 final password = passwordTextEditingController.text;
-                AuthService.instance
-                    .login(
-                  email,
-                  password,
-                  context,
-                );
-                
-                
+                try {
+                  AuthService.instance.login(
+                    email,
+                    password,
+                  );
+                  // Navigator.pushReplacementNamed(
+                  //   context,
+                  //   RouteHelper.homePageRoute,
+                  // );
+                } on ApiException catch (e) {
+                  // Display error to the user
+                  log("calling exception on login");
+                  ApiException.show(context, e.code ?? "unknown",
+                      message: e.message);
+                }
               },
             ),
             const SizedBox(

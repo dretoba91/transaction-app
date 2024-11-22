@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:transaction_app/data/services/api.dart';
 import 'package:transaction_app/data/services/api_exception.dart';
@@ -28,6 +29,7 @@ class TransactionRepository {
     double amount,
     Types type,
     String userId,
+    BuildContext context,
   ) async {
     final transactionId = getId();
     try {
@@ -42,9 +44,12 @@ class TransactionRepository {
 
       await apiService.createTransaction(transact, transactionId);
     } on ApiException catch (e) {
-      // fix handling the error and displaying it to user.
-      // return showErrorSnackbar;
-      throw Exception('Failed to add transaction: ${e.message}');
+      rethrow;
+      // log("Transaction Error: ${e.message}");
+      // if (context.mounted) {
+      //   ApiException.show(
+      //       context, e.code ?? "unknown-error"); // Use context safely
+      // }
     }
   }
 
@@ -56,6 +61,7 @@ class TransactionRepository {
     Types type,
     String userId,
     String id,
+    BuildContext context,
   ) async {
     try {
       Transactions transact = Transactions(
@@ -68,9 +74,13 @@ class TransactionRepository {
       );
       await apiService.updateTransaction(transact, id);
     } on ApiException catch (e) {
-      // fix handling the error and displaying it to user.
-      // return showErrorSnackbar;
-      throw Exception('Failed to add transaction: ${e.message}');
+      rethrow;
+      // log("Update Transaction Error: ${e.message}");
+      // // Display the error dialog
+      // if (context.mounted) {
+      //   ApiException.show(
+      //       context, e.code ?? "unknown-error"); // Use context safely
+      // }
     }
   }
 

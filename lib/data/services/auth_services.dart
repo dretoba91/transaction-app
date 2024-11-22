@@ -2,10 +2,8 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:transaction_app/utils/colors.dart';
+import 'package:transaction_app/data/services/api_exception.dart';
 import 'package:transaction_app/utils/routes.dart';
-import 'package:transaction_app/utils/size_calculator.dart';
-import 'package:transaction_app/widgets/snack_bar.dart';
 
 class AuthService {
   AuthService._();
@@ -35,41 +33,42 @@ class AuthService {
       // creating User collection
       User user = userCredential.user!;
       user.updateDisplayName(name);
-    } catch (e) {
-      log('error ===> $e');
+    } on FirebaseAuthException catch (e) {
+      throw ApiException("${e.message}", code: e.code);
     }
   }
 
   // Login logic
-  Future login(email, password, [context]) async {
-    late final UserCredential userCredential;
+  Future login(
+    email,
+    password,
+  ) async {
+    // late final UserCredential userCredential;
     try {
-      userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      Navigator.pushReplacementNamed(
-        context,
-        RouteHelper.homePageRoute,
-      );
+      
     } on FirebaseAuthException catch (e) {
+      throw ApiException("${e.message}", code: e.code);
       // Handle errors
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.message!,
-            style: TextStyle(
-              fontSize: sizer(true, 14, context),
-              fontWeight: FontWeight.w600,
-              color: AppColors.textWhite,
-            ),
-          ),
-          backgroundColor: AppColors.secondaryRedColor,
-          duration: const Duration(
-            seconds: 10,
-          ),
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text(
+      //       e.message!,
+      //       style: TextStyle(
+      //         fontSize: sizer(true, 14, context),
+      //         fontWeight: FontWeight.w600,
+      //         color: AppColors.textWhite,
+      //       ),
+      //     ),
+      //     backgroundColor: AppColors.secondaryRedColor,
+      //     duration: const Duration(
+      //       seconds: 10,
+      //     ),
+      //   ),
+      // );
     }
 
     // return userCredential;
@@ -78,16 +77,16 @@ class AuthService {
   Future<void> sendVerifyEmailLink() async {
     try {
       await _firebaseAuth.currentUser?.sendEmailVerification();
-    } catch (e) {
-      log("send email verification error: ${e.toString()}");
+    } on FirebaseAuthException catch (e) {
+      throw ApiException("${e.message}", code: e.code);
     }
   }
 
   Future<void> signout() async {
     try {
       await _firebaseAuth.signOut();
-    } catch (e) {
-      log("siging out error: ${e.toString()}");
+    } on FirebaseAuthException catch (e) {
+      throw ApiException("${e.message}", code: e.code);
     }
   }
 
